@@ -5,19 +5,71 @@ import QtQuick.Extras 1.4
 import QtQuick.Extras.Private 1.0
 
 Rectangle {
+     // property real rpm_value: 10000.0
     width: 250
     height: 250
     color: "#FFFFFF"
     border.color: "#3498db"
     border.width: 5
+    Rectangle {
+          x: 75
+          y: 135
+          width: 100
+          height: 25
+          color: "#FFFFFF"
+          Text {
 
+               font.pixelSize:15
+               text: "Engine Speed"
+               color: "#17202a"
+               antialiasing: true
+               anchors.verticalCenter: parent.verticalCenter  
+               anchors.horizontalCenter: parent.horizontalCenter   
+               }
+          }
+     Rectangle {
+          x: 100
+          y: 160
+          width: 50
+          height: 25
+          color: "#FFFFFF"
+          Text {
+
+               font.pixelSize:15
+               text: "RPM"
+               color: "#17202a"
+               antialiasing: true
+               anchors.verticalCenter: parent.verticalCenter  
+               anchors.horizontalCenter: parent.horizontalCenter   
+               }
+          }
+     
     CircularGauge {
+        id: cg
         objectName: "rpm_gauge"
         property real rpm_value: 10000.0
         anchors.centerIn: parent
         value: rpm_value
         maximumValue: 10000.0  // Largest Value
         minimumValue: 0.0       // Smallest Value
+        Rectangle {
+          x: 80
+          y: 170
+          width: 50
+          height: 25
+          color: "#FFFFFF"
+          border.color: "#2471a3"
+          border.width: 2
+          Text {
+
+               font.pixelSize:15
+               text: cg.value
+               color: "#17202a"
+               antialiasing: true
+               anchors.verticalCenter: parent.verticalCenter  
+               anchors.horizontalCenter: parent.horizontalCenter               
+               }
+          }
         style: CircularGaugeStyle {
             id: style
             tickmarkStepSize: 1000.0 // Tick Marks
@@ -63,5 +115,7 @@ Rectangle {
                }
           }
      }
+     
 }
+
 }

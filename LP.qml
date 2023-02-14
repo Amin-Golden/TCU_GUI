@@ -20,11 +20,11 @@ Rectangle {
         Text {
 
              font.pixelSize:15
-             text: "Fluid Temp"
+             text: "Line Pressure"
              color: "#17202a"
              antialiasing: true
              anchors.verticalCenter: parent.verticalCenter  
-               anchors.horizontalCenter: parent.horizontalCenter   
+             anchors.horizontalCenter: parent.horizontalCenter   
              }
         }
    Rectangle {
@@ -36,21 +36,21 @@ Rectangle {
         Text {
 
              font.pixelSize:15
-             text: "°C"
+             text: "%"
              color: "#17202a"
              antialiasing: true
              anchors.verticalCenter: parent.verticalCenter  
-               anchors.horizontalCenter: parent.horizontalCenter   
+             anchors.horizontalCenter: parent.horizontalCenter   
              }
         }
     CircularGauge {
-          id: cg
-        objectName: "tft_gauge"
-        property real tft_value: 150.0
+        id: cg
+        objectName: "lp_gauge"
+        property real lp_value: 100.0
         anchors.centerIn: parent
-        value: tft_value
-        maximumValue: 150.0  // Largest Value
-        minimumValue: -40.0       // Smallest Value
+        value: lp_value
+        maximumValue: 100.0  // Largest Value
+        minimumValue: 0.0       // Smallest Value
         Rectangle {
           x: 80
           y: 170
@@ -74,15 +74,15 @@ Rectangle {
             tickmarkStepSize: 10.0 // Tick Marks
 
             tickmark: Rectangle {
-                visible: styleData.value < 150 || styleData.value % 10 == 0
+                visible: styleData.value < 100 || styleData.value % 10 == 0
                 implicitWidth: outerRadius * 0.02
                 antialiasing: true
                 implicitHeight: outerRadius * 0.06
-                color: styleData.value >= 150 ? "#fdedec" : "#78281f"
+                color: styleData.value >= 100 ? "#fdedec" : "#78281f"
             }
 
            minorTickmark: Rectangle {
-                visible: styleData.value < 150
+                visible: styleData.value < 100
                 implicitWidth: outerRadius * 0.01
                 antialiasing: true
                 implicitHeight: outerRadius * 0.03
@@ -97,22 +97,22 @@ Rectangle {
            }
 
            needle: Rectangle {
-                y: outerRadius * 0.15
-                implicitWidth: outerRadius * 0.03
-                implicitHeight: outerRadius * 1.1
-                antialiasing: true
-                color: "#DE3163"
-           }
+               y: outerRadius * 0.15
+               implicitWidth: outerRadius * 0.03
+               implicitHeight: outerRadius * 1.1
+               antialiasing: true
+               color: "#DE3163"
+          }
 
-           foreground: Item {
-                Rectangle {
-                     width: outerRadius * 0.2
-                     height: width
-                     radius: width / 2
-                     color: "#1c2833"
-                     anchors.centerIn: parent
-                }
-           }
-      }
- }
+          foreground: Item {
+               Rectangle {
+                    width: outerRadius * 0.2
+                    height: width
+                    radius: width / 2
+                    color: "#1c2833"
+                    anchors.centerIn: parent
+               }
+          }
+     }
+}
 }

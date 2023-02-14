@@ -10,14 +10,64 @@ Rectangle {
     color: "#FFFFFF"
     border.color: "#3498db"
     border.width: 5
+    Rectangle {
+        x: 75
+        y: 135
+        width: 100
+        height: 25
+        color: "#FFFFFF"
+        Text {
 
+             font.pixelSize:15
+             text: "Speed"
+             color: "#17202a"
+             antialiasing: true
+             anchors.verticalCenter: parent.verticalCenter  
+               anchors.horizontalCenter: parent.horizontalCenter   
+             }
+        }
+   Rectangle {
+        x: 100
+        y: 160
+        width: 50
+        height: 25
+        color: "#FFFFFF"
+        Text {
+
+             font.pixelSize:15
+             text: "KM/H"
+             color: "#17202a"
+             antialiasing: true
+             anchors.verticalCenter: parent.verticalCenter  
+               anchors.horizontalCenter: parent.horizontalCenter   
+             }
+        }
     CircularGauge {
+        id: cg
         objectName: "speed_gauge"
         property real speed_value: 400.0
         anchors.centerIn: parent
         value: speed_value
         maximumValue: 400.0  // Largest Value
         minimumValue: 0.0       // Smallest Value
+        Rectangle {
+          x: 80
+          y: 170
+          width: 50
+          height: 25
+          color: "#FFFFFF"
+          border.color: "#2471a3"
+          border.width: 2
+          Text {
+
+               font.pixelSize:15
+               text: cg.value
+               color: "#17202a"
+               antialiasing: true
+               anchors.verticalCenter: parent.verticalCenter  
+               anchors.horizontalCenter: parent.horizontalCenter               
+               }
+          }
         style: CircularGaugeStyle {
             id: style
             tickmarkStepSize: 20.0 // Tick Marks
