@@ -33,37 +33,69 @@ class gearO:
     O2: int = 0
     O3: int = 0
     O4: int = 0
+    O5: int = 0
 @dataclass()
 class gearP:
     state: str = ""
     data_x: list[int] = field(default_factory=list)
     data_y: list[int] = field(default_factory=list) 
+    ratio: float = 1.0
+    O1: int = 0
+    O2: int = 0
+    O3: int = 0
+    O4: int = 0
+    O5: int = 0
 # [20,40,60,80,100 ]  [[1,1],[40,20],[80,40],[120,90],[200,100]]
 gear_list = "Park"
-P=gearO(state="P")
-R=gearO(state="R")
-N=gearO(state="N")
-G1=gearO(state="G1")
-G2=gearO(state="G2")
-G3=gearO(state="G3")
-G4=gearO(state="G4")
-G5=gearO(state="G5")
-G6=gearO(state="G6")
-G7=gearO(state="G7")
-G8=gearO(state="G8")
-G9=gearO(state="G9")
+# P=gearO(state="P")
+# R=gearO(state="R")
+# N=gearO(state="N")
+# G1=gearO(state="G1")
+# G2=gearO(state="G2")
+# G3=gearO(state="G3")
+# G4=gearO(state="G4")
+# G5=gearO(state="G5")
+# G6=gearO(state="G6")
+# G7=gearO(state="G7")
+# G8=gearO(state="G8")
+# G9=gearO(state="G9")
 
-GP1=gearP(state="G1",data_x=[20,40,60,80,100 ],data_y=[[1,0],[40,0],[80,0],[120,0],[200,0]])
-GP2=gearP(state="G2",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP3=gearP(state="G3",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP4=gearP(state="G4",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP5=gearP(state="G5",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP6=gearP(state="G6",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP7=gearP(state="G7",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP8=gearP(state="G8",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-GP9=gearP(state="G9",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
-print(G1.O1)
+P=gearP(state="P")
+R=gearP(state="R")
+N=gearP(state="N")
+G1=gearP(state="G1",data_x=[20,40,60,80,100 ],data_y=[[1,0],[40,0],[80,0],[120,0],[200,0]])
+G2=gearP(state="G2",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G3=gearP(state="G3",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G4=gearP(state="G4",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G5=gearP(state="G5",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G6=gearP(state="G6",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G7=gearP(state="G7",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G8=gearP(state="G8",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+G9=gearP(state="G9",data_x=[20,40,60,80,100 ],data_y=[[1,1],[40,20],[80,40],[120,90],[200,100]])
+
 show = 0
+
+## sensor read ###
+Engine_speed = 3200
+TPS_V = 53
+Speed = 75
+Fluid_temp = 85
+line_press = 70
+TCU_temp = 25
+TCU_volt = 12
+TCU_amp = 1.0
+O1AMP = 1.1
+O2AMP = 1.2
+O3AMP = 1.3 
+O4AMP = 1.4
+O5AMP = 1.5
+O6AMP = 1.6
+O7AMP = 1.7
+O8AMP = 1.8
+Drive_mod = "N" # N : normal // S: Sport // E: Economy // 
+Brake_sig = 0
+Ign_sig = 0 
+
 # O1 = 0
 # O2 = 0
 # O3 = 0
@@ -506,7 +538,7 @@ class Ui_TCU(object):
           
         ##### Gear Box List            ######################
         self.gear_list = QtWidgets.QListWidget(self.Gearbox)
-        self.gear_list.setGeometry(QtCore.QRect(10, 10, 71, 361))
+        self.gear_list.setGeometry(QtCore.QRect(10, 10, 71, 280))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.gear_list.setFont(font)
@@ -646,12 +678,10 @@ class Ui_TCU(object):
         self.label_4 = QtWidgets.QLabel(self.Gearbox)
         self.label_4.setGeometry(QtCore.QRect(660, 470, 51, 20))
         self.label_4.setObjectName("label_4")
-        self.splitter = QtWidgets.QSplitter(self.Gearbox)
-        self.splitter.setGeometry(QtCore.QRect(90, 10, 81, 311))
-        self.splitter.setOrientation(QtCore.Qt.Vertical)
-        self.splitter.setObjectName("splitter")
+    
         ###################################################
-        self.checkBox_1 = QtWidgets.QCheckBox(self.splitter)
+        self.checkBox_1 = QtWidgets.QCheckBox(self.Gearbox)
+        self.checkBox_1.setGeometry(QtCore.QRect(90, 30, 61, 31))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -662,9 +692,9 @@ class Ui_TCU(object):
         self.checkBox_1.setFont(font)
         self.checkBox_1.setTristate(True)
         self.checkBox_1.setObjectName("checkBox_1")
-        self.checkBox_1.stateChanged.connect(lambda: self.show_state(self.checkBox_1.checkState(),1))
-
-        self.checkBox_2 = QtWidgets.QCheckBox(self.splitter)
+        self.checkBox_1.stateChanged.connect(lambda: self.gear_io_box(self.checkBox_1.checkState(),1))
+        self.checkBox_2 = QtWidgets.QCheckBox(self.Gearbox)
+        self.checkBox_2.setGeometry(QtCore.QRect(90, 60, 61, 31))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -675,8 +705,9 @@ class Ui_TCU(object):
         self.checkBox_2.setFont(font)
         self.checkBox_2.setTristate(True)
         self.checkBox_2.setObjectName("checkBox_2")
-        self.checkBox_2.stateChanged.connect(lambda: self.show_state(self.checkBox_2.checkState(),2))
-        self.checkBox_3 = QtWidgets.QCheckBox(self.splitter)
+        self.checkBox_2.stateChanged.connect(lambda: self.gear_io_box(self.checkBox_2.checkState(),2))
+        self.checkBox_3 = QtWidgets.QCheckBox(self.Gearbox)
+        self.checkBox_3.setGeometry(QtCore.QRect(90, 90, 61, 41))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -687,8 +718,9 @@ class Ui_TCU(object):
         self.checkBox_3.setFont(font)
         self.checkBox_3.setTristate(True)
         self.checkBox_3.setObjectName("checkBox_3")
-        self.checkBox_3.stateChanged.connect(lambda: self.show_state(self.checkBox_3.checkState(),3))
-        self.checkBox_4 = QtWidgets.QCheckBox(self.splitter)
+        self.checkBox_3.stateChanged.connect(lambda: self.gear_io_box(self.checkBox_3.checkState(),3))
+        self.checkBox_4 = QtWidgets.QCheckBox(self.Gearbox)
+        self.checkBox_4.setGeometry(QtCore.QRect(90, 130, 61, 31))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -699,15 +731,27 @@ class Ui_TCU(object):
         self.checkBox_4.setFont(font)
         self.checkBox_4.setTristate(True)
         self.checkBox_4.setObjectName("checkBox_4")
-        self.checkBox_4.stateChanged.connect(lambda: self.show_state(self.checkBox_4.checkState(),4))
+        self.checkBox_4.stateChanged.connect(lambda: self.gear_io_box(self.checkBox_4.checkState(),4))
         
+        self.gear_ratio_v = QtWidgets.QDoubleSpinBox(self.Gearbox)
+        self.gear_ratio_v.setGeometry(QtCore.QRect(95, 310, 51, 22))
+        self.gear_ratio_v.setSingleStep(0.1)
+        self.gear_ratio_v.setProperty("value", 1.0)
+        self.gear_ratio_v.setObjectName("gear_ratio_v")
+        self.gear_ratio_v.valueChanged.connect(self.gear_ratio_value)
+        self.gear_ratio_l = QtWidgets.QLabel(self.Gearbox)
+        self.gear_ratio_l.setGeometry(QtCore.QRect(10, 310, 81, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.gear_ratio_l.setFont(font)
+        self.gear_ratio_l.setObjectName("gear_ratio_l")
         self.tabWidget.addTab(self.Gearbox, "")
         ###### Torque converter clutchCC TAB ##########################################################
         self.TCC = QtWidgets.QWidget()
         self.TCC.setObjectName("TCC")
         ##### PLOT               ##############
         self.widget_p3 = QtWidgets.QWidget(self.TCC)
-        self.widget_p3.setGeometry(QtCore.QRect(200, 10, 700, 450))
+        self.widget_p3.setGeometry(QtCore.QRect(50, 10, 700, 450))
         self.widget_p3.setObjectName("widget_p3")
         self.figure_p3 = plt.figure()
         # self.fig_p3 , self.ax_p3= self.figure_p3.subplots(subplot_kw=dict(projection='3d'))
@@ -737,13 +781,134 @@ class Ui_TCU(object):
         # adding canvas to the layout
         self.plt_p3.addWidget(self.canvas_p3)
         self.tabWidget.addTab(self.TCC, "")
+
+        self.frame = QtWidgets.QFrame(self.TCC)
+        self.frame.setGeometry(QtCore.QRect(80, 500, 571, 91))
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.label_5 = QtWidgets.QLabel(self.frame)
+        self.label_5.setGeometry(QtCore.QRect(340, 20, 51, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_5.setFont(font)
+        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_5.setObjectName("label_5")
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        self.label_2.setGeometry(QtCore.QRect(170, 30, 51, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_2.setFont(font)
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.label_7 = QtWidgets.QLabel(self.frame)
+        self.label_7.setGeometry(QtCore.QRect(230, 60, 31, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_7.setFont(font)
+        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_7.setObjectName("label_7")
+        self.TPF = QtWidgets.QDoubleSpinBox(self.frame)
+        self.TPF.setGeometry(QtCore.QRect(340, 60, 61, 25))
+        self.TPF.setDecimals(3)
+        self.TPF.setObjectName("TPF")
+        self.TPF.valueChanged.connect(self.plot3)
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setGeometry(QtCore.QRect(10, 50, 101, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label.setFont(font)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.FTF = QtWidgets.QDoubleSpinBox(self.frame)
+        self.FTF.setGeometry(QtCore.QRect(170, 60, 61, 25))
+        self.FTF.setDecimals(3)
+        self.FTF.setObjectName("FTF")
+        self.FTF.valueChanged.connect(self.plot3)
+        self.ESF = QtWidgets.QDoubleSpinBox(self.frame)
+        self.ESF.setGeometry(QtCore.QRect(490, 60, 61, 25))
+        self.ESF.setDecimals(3)
+        self.ESF.setObjectName("ESF")
+        self.ESF.valueChanged.connect(self.plot3)
+        self.label_8 = QtWidgets.QLabel(self.frame)
+        self.label_8.setGeometry(QtCore.QRect(490, 20, 51, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_8.setFont(font)
+        self.label_8.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_8.setObjectName("label_8")
+        self.label_9 = QtWidgets.QLabel(self.frame)
+        self.label_9.setGeometry(QtCore.QRect(400, 60, 31, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_9.setFont(font)
+        self.label_9.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_9.setObjectName("label_9")
+        self.fluid_base_tmp = QtWidgets.QLCDNumber(self.frame)
+        self.fluid_base_tmp.setGeometry(QtCore.QRect(110, 60, 41, 25))
+        self.fluid_base_tmp.setDigitCount(3)
+        self.fluid_base_tmp.setProperty("value", 100.0)
+        self.fluid_base_tmp.setObjectName("fluid_base_tmp")
+        self.label_11 = QtWidgets.QLabel(self.frame)
+        self.label_11.setGeometry(QtCore.QRect(150, 60, 21, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_11.setFont(font)
+        self.label_11.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_11.setObjectName("label_11")
+        self.label_12 = QtWidgets.QLabel(self.frame)
+        self.label_12.setGeometry(QtCore.QRect(100, 10, 71, 51))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_12.setFont(font)
+        self.label_12.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_12.setObjectName("label_12")
+        self.label_13 = QtWidgets.QLabel(self.frame)
+        self.label_13.setGeometry(QtCore.QRect(240, 10, 91, 51))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_13.setFont(font)
+        self.label_13.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_13.setObjectName("label_13")
+        self.TP = QtWidgets.QLCDNumber(self.frame)
+        self.TP.setGeometry(QtCore.QRect(260, 60, 41, 25))
+        self.TP.setDigitCount(3)
+        self.TP.setProperty("value", 100.0)
+        self.TP.setObjectName("TP")
+        self.label_14 = QtWidgets.QLabel(self.frame)
+        self.label_14.setGeometry(QtCore.QRect(310, 60, 21, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_14.setFont(font)
+        self.label_14.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_14.setObjectName("label_14")
+        self.label_15 = QtWidgets.QLabel(self.frame)
+        self.label_15.setGeometry(QtCore.QRect(470, 60, 21, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_15.setFont(font)
+        self.label_15.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_15.setObjectName("label_15")
+        self.ES = QtWidgets.QLCDNumber(self.frame)
+        self.ES.setGeometry(QtCore.QRect(420, 60, 41, 25))
+        self.ES.setDigitCount(3)
+        self.ES.setProperty("value", 100.0)
+        self.ES.setObjectName("ES")
+        self.label_16 = QtWidgets.QLabel(self.frame)
+        self.label_16.setGeometry(QtCore.QRect(400, 10, 81, 51))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_16.setFont(font)
+        self.label_16.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_16.setObjectName("label_16")
+
         ##### Pressure control selonoid tab #########################
         self.PCS = QtWidgets.QWidget()
         self.PCS.setObjectName("PCS")
         self.tabWidget.addTab(self.PCS, "")
-        self.SL = QtWidgets.QWidget()
-        self.SL.setObjectName("SL")
-        self.tabWidget.addTab(self.SL, "")
+        self.CAN = QtWidgets.QWidget()
+        self.CAN.setObjectName("CAN")
+        self.tabWidget.addTab(self.CAN, "")
         TCU.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(TCU)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 794, 21))
@@ -827,6 +992,18 @@ class Ui_TCU(object):
         self.status_v.setText(_translate("TCU", "Not Connected"))
         self.status_l.setText(_translate("TCU", "Status:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Sensors), _translate("TCU", "Sensors"))
+        self.label_5.setText(_translate("TCU", "TPF"))
+        self.label_2.setText(_translate("TCU", "<html><head/><body><p align=\"center\">FTF</p></body></html>"))
+        self.label_7.setText(_translate("TCU", "+"))
+        self.label.setText(_translate("TCU", "TCC PWM :"))
+        self.label_8.setText(_translate("TCU", "ESF"))
+        self.label_9.setText(_translate("TCU", "+"))
+        self.label_11.setText(_translate("TCU", "*"))
+        self.label_12.setText(_translate("TCU", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">(Fluid - Base) </span></p><p align=\"center\"><span style=\" font-size:8pt;\">Temp</span></p></body></html>"))
+        self.label_13.setText(_translate("TCU", "<html><head/><body><p align=\"center\"><a name=\"Throttle_position_sensor_(TPS)\"/><span style=\" font-size:8pt;\">T</span><span style=\" font-size:8pt;\">hrottle position</span></p></body></html>"))
+        self.label_14.setText(_translate("TCU", "*"))
+        self.label_15.setText(_translate("TCU", "*"))
+        self.label_16.setText(_translate("TCU", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt;\">Engine Speed</span></p></body></html>"))
         
         __sortingEnabled = self.gear_list.isSortingEnabled()
         self.gear_list.setSortingEnabled(False)
@@ -895,11 +1072,12 @@ class Ui_TCU(object):
         self.checkBox_2.setText(_translate("TCU", "Out 2"))
         self.checkBox_3.setText(_translate("TCU", "Out 3"))
         self.checkBox_4.setText(_translate("TCU", "Out 4"))
+        self.gear_ratio_l.setText(_translate("TCU", "Gear Ratio:"))
 
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Gearbox), _translate("TCU", "Shift solenoids"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.TCC), _translate("TCU", "Torque converter clutch"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.PCS), _translate("TCU", "Pressure control solenoids"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.SL), _translate("TCU", "Shift Lock"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.CAN), _translate("TCU", "CAN"))
 
         self.menuMenu.setTitle(_translate("TCU", "Menu"))
         self.menuConnect.setTitle(_translate("TCU", "Connect"))
@@ -916,9 +1094,9 @@ class Ui_TCU(object):
 
     def text_changed(self, s): # s is a str
         global gear_list
-        global G1 , G2 , G3 , G4 , G5 , G6 , G7 , G8 , G9
+        # global G1 , G2 , G3 , G4 , G5 , G6 , G7 , G8 , G9
         global P , R , N
-        global GP1 , GP2 , GP3 , GP4 , GP5 , GP6 , GP7 , GP8 , GP9
+        global G1 , G2 , G3 , G4 , G5 , G6 , G7 , G8 , G9
 
         global show
         gear_list=s
@@ -934,160 +1112,184 @@ class Ui_TCU(object):
             self.checkBox_2.setCheckState(P.O2)
             self.checkBox_3.setCheckState(P.O3)
             self.checkBox_4.setCheckState(P.O4)
+            self.checkBox_4.setCheckState(P.O5)
+            self.gear_ratio_v.setValue(P.ratio)
         if gear_list=="Reverse" :
             self.checkBox_1.setCheckState(R.O1)
             self.checkBox_2.setCheckState(R.O2)
             self.checkBox_3.setCheckState(R.O3)
             self.checkBox_4.setCheckState(R.O4)
+            self.checkBox_4.setCheckState(R.O5)
+            self.gear_ratio_v.setValue(R.ratio)
         if gear_list=="Neutral" :
             
             self.checkBox_1.setCheckState(N.O1)
             self.checkBox_2.setCheckState(N.O2)
             self.checkBox_3.setCheckState(N.O3)
             self.checkBox_4.setCheckState(N.O4)
+            self.checkBox_4.setCheckState(N.O5)
+            self.gear_ratio_v.setValue(N.ratio)
         if gear_list=="Gear 1" :
-            self.plot(GP1.data_x,GP1.data_y)
+            self.plot(G1.data_x,G1.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP1.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G1.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP1.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G1.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP1.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G1.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP1.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G1.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
-                print(i,str(GP1.data_x[i]),str(GP1.data_y[i][0]))
+                print(i,str(G1.data_x[i]),str(G1.data_y[i][0]))
             self.checkBox_1.setCheckState(G1.O1)
             self.checkBox_2.setCheckState(G1.O2)
             self.checkBox_3.setCheckState(G1.O3)
             self.checkBox_4.setCheckState(G1.O4)
+            self.checkBox_4.setCheckState(G1.O5)
+            self.gear_ratio_v.setValue(G1.ratio)
         if gear_list=="Gear 2" :
-            self.plot(GP2.data_x,GP2.data_y)
+            self.plot(G2.data_x,G2.data_y)
             for i in range (0,5):  
-                print(i,str(GP2.data_x[i]),str(GP2.data_y[i][0]))   
-                item = QtWidgets.QTableWidgetItem(str(GP2.data_x[i]))
+                print(i,str(G2.data_x[i]),str(G2.data_y[i][0]))   
+                item = QtWidgets.QTableWidgetItem(str(G2.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP2.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G2.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP2.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G2.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP2.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G2.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
                 
             self.checkBox_1.setCheckState(G2.O1)
             self.checkBox_2.setCheckState(G2.O2)
             self.checkBox_3.setCheckState(G2.O3)
             self.checkBox_4.setCheckState(G2.O4)
+            self.checkBox_4.setCheckState(G2.O5)
+            self.gear_ratio_v.setValue(G2.ratio)
         if gear_list=="Gear 3" :
-            self.plot(GP3.data_x,GP3.data_y)
+            self.plot(G3.data_x,G3.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP3.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G3.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP3.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G3.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP3.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G3.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP3.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G3.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
-                print(i,str(GP3.data_x[i]),str(GP3.data_y[i][0]))
+                print(i,str(G3.data_x[i]),str(G3.data_y[i][0]))
             self.checkBox_1.setCheckState(G3.O1)
             self.checkBox_2.setCheckState(G3.O2)
             self.checkBox_3.setCheckState(G3.O3)
             self.checkBox_4.setCheckState(G3.O4)
+            self.checkBox_4.setCheckState(G3.O5)
+            self.gear_ratio_v.setValue(G3.ratio)
         if gear_list=="Gear 4" :
-            self.plot(GP4.data_x,GP4.data_y)
+            self.plot(G4.data_x,G4.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP4.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G4.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP4.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G4.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP4.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G4.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP4.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G4.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
             self.checkBox_1.setCheckState(G4.O1)
             self.checkBox_2.setCheckState(G4.O2)
             self.checkBox_3.setCheckState(G4.O3)
             self.checkBox_4.setCheckState(G4.O4)
+            self.checkBox_4.setCheckState(G4.O5)
+            self.gear_ratio_v.setValue(G4.ratio)
         if gear_list=="Gear 5" :
-            self.plot(GP5.data_x,GP5.data_y)
+            self.plot(G5.data_x,G5.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP5.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G5.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP5.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G5.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP5.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G5.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP5.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G5.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
             self.checkBox_1.setCheckState(G5.O1)
             self.checkBox_2.setCheckState(G5.O2)
             self.checkBox_3.setCheckState(G5.O3)
             self.checkBox_4.setCheckState(G5.O4)
+            self.checkBox_4.setCheckState(G5.O5)
+            self.gear_ratio_v.setValue(G5.ratio)
         if gear_list=="Gear 6" :
-            self.plot(GP6.data_x,GP6.data_y)
+            self.plot(G6.data_x,G6.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP6.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G6.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP6.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G6.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP6.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G6.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP6.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G6.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
             self.checkBox_1.setCheckState(G6.O1)
             self.checkBox_2.setCheckState(G6.O2)
             self.checkBox_3.setCheckState(G6.O3)
             self.checkBox_4.setCheckState(G6.O4)
+            self.checkBox_4.setCheckState(G6.O5)
+            self.gear_ratio_v.setValue(G6.ratio)
         if gear_list=="Gear 7" :
-            self.plot(GP7.data_x,GP7.data_y)
+            self.plot(G7.data_x,G7.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP7.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G7.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP7.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G7.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP7.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G7.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP7.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G7.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
             self.checkBox_1.setCheckState(G7.O1)
             self.checkBox_2.setCheckState(G7.O2)
             self.checkBox_3.setCheckState(G7.O3)
             self.checkBox_4.setCheckState(G7.O4)
+            self.checkBox_4.setCheckState(G7.O5)
+            self.gear_ratio_v.setValue(G7.ratio)
         if gear_list=="Gear 8" :
-            self.plot(GP8.data_x,GP8.data_y)
+            self.plot(G8.data_x,G8.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP8.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G8.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP8.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G8.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP8.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G8.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP8.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G8.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
             self.checkBox_1.setCheckState(G8.O1)
             self.checkBox_2.setCheckState(G8.O2)
             self.checkBox_3.setCheckState(G8.O3)
             self.checkBox_4.setCheckState(G8.O4)
+            self.checkBox_4.setCheckState(G8.O5)
+            self.gear_ratio_v.setValue(G8.ratio)
         if gear_list=="Gear 9" :
-            self.plot(GP9.data_x,GP9.data_y)
+            self.plot(G9.data_x,G9.data_y)
             for i in range (0,5):     
-                item = QtWidgets.QTableWidgetItem(str(GP9.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G9.data_x[i]))
                 self.up_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP9.data_x[i]))
+                item = QtWidgets.QTableWidgetItem(str(G9.data_x[i]))
                 self.down_shift_table.setItem(0,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP9.data_y[i][0]))
+                item = QtWidgets.QTableWidgetItem(str(G9.data_y[i][0]))
                 self.up_shift_table.setItem(1,i,item)
-                item = QtWidgets.QTableWidgetItem(str(GP9.data_y[i][1]))
+                item = QtWidgets.QTableWidgetItem(str(G9.data_y[i][1]))
                 self.down_shift_table.setItem(1,i,item)
             self.checkBox_1.setCheckState(G9.O1)
             self.checkBox_2.setCheckState(G9.O2)
             self.checkBox_3.setCheckState(G9.O3)
             self.checkBox_4.setCheckState(G9.O4)
+            self.checkBox_4.setCheckState(G9.O5)
+            self.gear_ratio_v.setValue(G9.ratio)
         show = 0
         
     #### check box state change #############################
-    def show_state(self,sig,num):
+    def gear_io_box(self,sig,num):
         global gear_list
         global G1 , G2 , G3 , G4 , G5 , G6 , G7 , G8 , G9
         global P , R , N
@@ -1213,34 +1415,74 @@ class Ui_TCU(object):
                 G9.O3=sig
             if num == 4 :
                 G9.O4=sig
-            
-
-        # print(P)
         
         print(gear_list)
         # print(s)
 
-    def plot(self,data_x ,data_y):
+
+    def gear_ratio_value(self):
+        global gear_list
+        global G1 , G2 , G3 , G4 , G5 , G6 , G7 , G8 , G9
+        global P , R , N
+        ratio_value = self.gear_ratio_v.value()
         
-        # random data
-        # data_x = [20,40,60,80,100 ]
-        # data_y = [0,1000,2000,3000,4000]
-        # tsstdata = [[1,2],[2,3],[5,6]]
+        if gear_list=="Reverse" :
+            
+            R.ratio=ratio_value
+            print(R)
+        if gear_list=="Gear 1" :
+            
+            G1.ratio=ratio_value
+            print(G1)
+        if gear_list=="Gear 2" :
+            
+            G2.ratio=ratio_value
+            print(G2)
+        if gear_list=="Gear 3" :
+            
+            G3.ratio=ratio_value
+            print(G3)
+        if gear_list=="Gear 4" :
+            
+            G4.ratio=ratio_value
+            print(G4)
+        if gear_list=="Gear 5" :
+            G5.ratio=ratio_value
+        if gear_list=="Gear 6" :
+            
+            G6.ratio=ratio_value
+        if gear_list=="Gear 7" :
+            
+            G7.ratio=ratio_value
+        if gear_list=="Gear 8" :
+            
+            G8.ratio=ratio_value
+        if gear_list=="Gear 9" :
+            
+            G9.ratio=ratio_value
+    def plot(self,data_x ,data_y):
+        global Speed
+        global TPS_V 
         # clearing old figure
         self.figure.clear()
 
         # create an axis
         ax = self.figure.add_subplot(111)
-
+        ax.grid()
+        ax.set_xlabel("TPS (%)")
+        ax.set_ylabel("Speed (KM/H)")
         # plot data
-        ax.plot(data_x,data_y, '*-')
+        ax.plot(data_x,data_y, '*-',TPS_V,Speed,"r+", markersize=10)
 
         # refresh canvas
         self.canvas.draw()
 
     def plot3(self ):
+        ftf = self.FTF.value()
+        tpf = self.TPF.value()
+        esf = self.TPF.value()
         def f(x, y):
-            return (x ** 2 + y ** 2)
+            return (x *tpf + y * esf + ftf * 25)
         z = np.linspace(5, 100, 100)
         y = np.linspace(0, 10000, 100)
         x = np.linspace(0, 100, 100)
@@ -1248,9 +1490,6 @@ class Ui_TCU(object):
         X, Y = np.meshgrid(x, y)
         Z = f(X, Y)
         theta = np.linspace(0, 2*np.pi)
-        # x = np.cos(theta - np.pi/2)
-        # y = np.sin(theta - np.pi/2)
-        # z = theta
 
         # random data  ,data_x ,data_y,data_z
         data_x = X
@@ -1261,21 +1500,16 @@ class Ui_TCU(object):
         self.figure_p3.clear()
 
         # create an axis
-        # ax = self.figure.add_subplot(111)
-        
         # self.figure_p3, ax = plt.subplots(subplot_kw=dict(projection='3d'))
         ax = self.figure_p3.add_subplot(1, 1, 1, projection='3d')
         ax.plot_surface(X, Y, Z, rstride=1, cstride=1,cmap='viridis', edgecolor='none')
-        # ax = plt.axes(projection='3d')
         # plot data
-        # ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,linewidth=0, antialiased=False)
-        # ax.plot3D(data_x,data_y,data_z,'gray')# rstride=1, cstride=1,cmap='viridis', edgecolor='none')
-        # ax.set_title('surface');
+
         # refresh canvas
         self.canvas_p3.draw()
     def table_change(self, item,tbl):
         global gear_list , show
-        global GP1,GP2,GP3,GP4,GP5,GP6,GP7,GP8,GP9
+        global G1,G2,G3,G4,G5,G6,G7,G8,G9
         row = item.row()
         col = item.column()
         data = int(item.text())
@@ -1283,60 +1517,60 @@ class Ui_TCU(object):
             print("table change data row col table list",data,row,col,tbl,gear_list)
             if gear_list == "Gear 1":
                 if row == 0 :
-                    GP1.data_x[col]=data
+                    G1.data_x[col]=data
                 if row == 1:
-                    GP1.data_y[col][tbl]=data
-                self.plot(GP1.data_x,GP1.data_y)
+                    G1.data_y[col][tbl]=data
+                self.plot(G1.data_x,G1.data_y)
                 print(11111111)
             if gear_list == "Gear 2":
                 if row == 0 :
-                    GP2.data_x[col]=data
+                    G2.data_x[col]=data
                 if row == 1:
-                    GP2.data_y[col][tbl]=data
-                self.plot(GP2.data_x,GP2.data_y)
+                    G2.data_y[col][tbl]=data
+                self.plot(G2.data_x,G2.data_y)
                 print(2222222222)
             if gear_list == "Gear 3":
                 if row == 0 :
-                    GP3.data_x[col]=data
+                    G3.data_x[col]=data
                 if row == 1:
-                    GP3.data_y[col][tbl]=int(data)
-                self.plot(GP3.data_x,GP3.data_y)
+                    G3.data_y[col][tbl]=int(data)
+                self.plot(G3.data_x,G3.data_y)
             if gear_list == "Gear 4":
                 if row == 0 :
-                    GP4.data_x[col]=data
+                    G4.data_x[col]=data
                 if row == 1:
-                    GP4.data_y[col][tbl]=data
-                self.plot(GP4.data_x,GP4.data_y)
+                    G4.data_y[col][tbl]=data
+                self.plot(G4.data_x,G4.data_y)
             if gear_list == "Gear 5":
                 if row == 0 :
-                    GP5.data_x[col]=data
+                    G5.data_x[col]=data
                 if row == 1:
-                    GP5.data_y[col][tbl]=data
-                self.plot(GP5.data_x,GP5.data_y)
+                    G5.data_y[col][tbl]=data
+                self.plot(G5.data_x,G5.data_y)
             if gear_list == "Gear 6":
                 if row == 0 :
-                    GP6.data_x[col]=data
+                    G6.data_x[col]=data
                 if row == 1:
-                    GP6.data_y[col][tbl]=data
-                self.plot(GP6.data_x,GP6.data_y)
+                    G6.data_y[col][tbl]=data
+                self.plot(G6.data_x,G6.data_y)
             if gear_list == "Gear 7":
                 if row == 0 :
-                    GP7.data_x[col]=data
+                    G7.data_x[col]=data
                 if row == 1:
-                    GP7.data_y[col][tbl]=data
-                self.plot(GP7.data_x,GP7.data_y)
+                    G7.data_y[col][tbl]=data
+                self.plot(G7.data_x,G7.data_y)
             if gear_list == "Gear 8":
                 if row == 0 :
-                    GP8.data_x[col]=data
+                    G8.data_x[col]=data
                 if row == 1:
-                    GP8.data_y[col][tbl]=data
-                self.plot(GP8.data_x,GP8.data_y)
+                    G8.data_y[col][tbl]=data
+                self.plot(G8.data_x,G8.data_y)
             if gear_list == "Gear 9":
                 if row == 0 :
-                    GP9.data_x[col]=int(data)
+                    G9.data_x[col]=int(data)
                 if row == 1:
-                    GP9.data_y[col][tbl]=int(data)
-                self.plot(GP9.data_x,GP9.data_y)
+                    G9.data_y[col][tbl]=int(data)
+                self.plot(G9.data_x,G9.data_y)
         
         
 if __name__ == "__main__":
